@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expense Tracker</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>💸</text></svg>">
+</head>
+<body data-today="{{ today }}">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1>Expense Tracker</h1>
+    <div class="month-nav">
+      <button class="icon-btn" id="prev-month" type="button" title="Previous month" aria-label="Previous month">&lsaquo;</button>
+      <input type="month" id="month-picker" aria-label="Month">
+      <button class="icon-btn" id="next-month" type="button" title="Next month" aria-label="Next month">&rsaquo;</button>
+    </div>
+  </div>
+  <div class="topbar-inner">
+    <div class="chips" id="month-chips"></div>
+    <span class="file-tag" id="file-tag"></span>
+  </div>
+</header>
+
+<main>
+  <div class="banner" id="banner" hidden></div>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="card">
+    <h2>Log an expense</h2>
+    <form id="add-form" class="entry-form" autocomplete="off">
+      <label>Date
+        <input type="date" name="date" id="add-date" required>
+      </label>
+      <label class="grow">Item
+        <input type="text" name="item" id="add-item" placeholder="Chai and samosa" required>
+      </label>
+      <label>Genre
+        <input type="text" name="genre" id="add-genre" list="genre-list" placeholder="Pick or type a new one">
+      </label>
+      <label>Amount
+        <input type="number" name="amount" id="add-amount" min="0" step="0.01" placeholder="0" required>
+      </label>
+      <button class="primary" type="submit">Add</button>
+    </form>
+    <datalist id="genre-list"></datalist>
+    <p class="hint">Typing a new genre saves it to the dropdown. Rest days between two logged entries are filled in automatically.</p>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Entries</h2>
+      <span class="hint" id="row-count"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="entries">
+        <thead>
+          <tr>
+            <th class="num">#</th>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Genre</th>
+            <th class="num">Amount</th>
+            <th class="num">Deviation</th>
+            <th class="num">Total</th>
+            <th class="actions-col"></th>
+          </tr>
+        </thead>
+        <tbody id="entries-body"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="empty-state" hidden>Nothing logged this month yet.</p>
+  </section>
+
+  <section class="card" id="breakdown-card" hidden>
+    <div class="card-head">
+      <h2>Where it went</h2>
+      <span class="hint">Genre is reporting only &mdash; it never affects the deviation math.</span>
+    </div>
+    <div id="breakdown"></div>
+  </section>
+</main>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
